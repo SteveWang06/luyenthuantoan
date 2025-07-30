@@ -1,56 +1,49 @@
 #include <iostream>
-#include <vector>
-#include <sstream>
-#include <string>
 using namespace std;
 
-
-int main() {
-
-    int testCase;
-    cin >> testCase;
-    cin.ignore();
-    while (testCase--)
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int T, n;
+    char ch;
+    cin >> T;
+    for (int Case = 1; Case <= T; Case++)
     {
-        string header;
-        getline(cin, header);
-
-        int n = stoi(header.substr(header.find('=') + 1));
-
-        vector<vector<long long>> matrix(n, vector<long long>(n));
-
+        cin >> ch >> ch >> n;
+        long long a[n][n];
+        bool flag = true;
         for (int i = 0; i < n; i++)
         {
-            string line;
-            getline(cin, line);
-            stringstream ss(line);
             for (int j = 0; j < n; j++)
             {
-                ss >> matrix[i][j];
+                cin >> a[i][j];
+                if (a[i][j] < 0)
+                    flag = false;
             }
-            
         }
-
-        bool symmetric = true;
-
-        for (int i = 0; i < n && symmetric; i++)
+        cout << "Test #" << Case << ": ";
+        if (!flag)
         {
-            for (int j = 0; j < n; j++)
-            {
-                if (matrix[i][j] < 0 || matrix[i][j] != matrix[n - 1 - i][n - 1 - j])
-                {
-                    symmetric = false;
-                }
-                
-            }
-            
+            cout << "Non-symmetric.\n";
+            continue;
         }
 
-        cout << "Test #" << testCase << ": ";
-
-        cout << (symmetric ? "Symmetric." : "Non-symmetric.") << endl;
+        for (int i = 0; i <= n / 2; i++)
+        {
+            for (int j = 0; j < n - i; j++)
+            {
+                if (a[i][j] != a[n - 1 - i][n - 1 - j])
+                {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag)
+            cout << "Symmetric.\n";
+        else
+            cout << "Non-symmetric.\n";
     }
-    
-
     return 0;
 }

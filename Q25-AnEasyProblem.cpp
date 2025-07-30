@@ -1,87 +1,38 @@
 #include <iostream>
-#include <string>
-
 using namespace std;
-
-
-
-int charToNum(char c) {
-
-    if (c >= '0' && c <= '9')
-    {
-        return c - '0';
-    }
-
-    if (c >= 'A' && c <= 'Z')
-    {
-        return c - 'A' + 10;
-    }
-
-    if (c >= 'a' && c <= 'z')
-    {
-        return c - 'a' + 36;
-    }
-
-    return -1;
-}
-
-
-
-
+ 
 int main() {
-
-    string number;
-
-    while (cin >> number)
-    {
-        int maxDigit = -1;
-        int digitNum;
-
-
-        for (char c : number)
-        {
-            int val = charToNum(c);
-            if (val > maxDigit)
-            {
-                maxDigit = val;
+    int sum, mx, temp;
+    string s;
+    while (getline(cin, s)){
+        sum = 0;
+        mx = 1;
+        int i;
+        for (i = 0; i < s.size(); i++) {
+            if (s[i] >= '0' && s[i] <= '9') {
+                temp = s[i] - '0';
             }
-            
+            else if (s[i] >= 'A' && s[i] <= 'Z') {
+                temp = s[i] - 'A' + 10;
+            }
+            else if (s[i] >= 'a' && s[i] <= 'z') {
+                temp = s[i] - 'a' + 36;
+            }
+            else continue;
+ 
+            if (mx < temp)
+                mx = temp;
+            sum += temp;
         }
-
-        bool found = false;
-
-        for (int base = maxDigit + 1; base < 62; base++)
-        {
-            digitNum = 0;
-            for (char c : number)
-            {
-                digitNum += charToNum(c);
-            }
-            
-            if (digitNum % (base - 1) == 0)
-            {
-                cout << base << endl;
-                found = true;
+ 
+        for (i = mx; i < 62; i++)
+            if (!(sum % i)) {
+                cout << i + 1 << "\n";
                 break;
             }
-            
-        }
-
-        if (!found)
-        {
-            cout << "such number is impossible!" << endl;
-        }
-        
-        
+ 
+        if (i == 62)
+            cout << "such number is impossible!\n";
     }
-    
-
     return 0;
 }
-
-
-
-
-
-
-

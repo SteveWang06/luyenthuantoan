@@ -1,88 +1,61 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <climits>
-
+#include <map>
 using namespace std;
 
-// Hàm chuyển một số nguyên sang chuỗi biểu diễn trong hệ cơ số bất kỳ
-string convertToBase(int number, int base) {
-    string digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (number == 0) return "0";
-
-    string result = "";
-    while (number > 0) {
-        result = digits[number % base] + result;
-        number /= base;
-    }
-
-    return result;
-}
-
-// Hàm tính tổng chi phí in số ở một cơ số, dựa trên bảng chi phí
-int computeCost(const string& numberStr, const vector<int>& cost) {
-    int total = 0;
-    for (char c : numberStr) {
-        if (isdigit(c)) {
-            total += cost[c - '0'];
-        } else {
-            total += cost[c - 'A' + 10];
-        }
-    }
-    return total;
-}
-
-// Tìm danh sách các cơ số có chi phí in nhỏ nhất
-vector<int> findCheapestBases(int number, const vector<int>& cost) {
-    int minCost = INT_MAX;
-    vector<int> cheapest;
-
-    for (int base = 2; base <= 36; ++base) {
-        string converted = convertToBase(number, base);
-        int currentCost = computeCost(converted, cost);
-
-        if (currentCost < minCost) {
-            minCost = currentCost;
-            cheapest.clear();
-            cheapest.push_back(base);
-        } else if (currentCost == minCost) {
-            cheapest.push_back(base);
-        }
-    }
-
-    return cheapest;
-}
-
 int main() {
-    int T;
-    cin >> T;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 
-    for (int caseNum = 1; caseNum <= T; ++caseNum) {
-        vector<int> cost(36);
-        // Đọc 4 dòng, mỗi dòng 9 số = 36 ký tự
-        for (int i = 0; i < 36; ++i) {
-            cin >> cost[i];
+    int testCases;
+    cin >> testCases;
+
+    for (int caseNumber = 1; caseNumber <= testCases; caseNumber++) {
+        if (caseNumber > 1) cout << "\n";
+
+        // costMap[i] là chi phí in ký tự thứ i (từ '0' đến 'Z')
+        map<int, int> costMap;
+        int charCost;
+        for (int i = 0; i < 36; i++) {
+            cin >> charCost;
+            costMap[i] = charCost;
         }
 
-        int Q;
-        cin >> Q;
+        cout << "Case " << caseNumber << ":\n";
 
-        cout << "Case " << caseNum << ":\n";
+        int queryCount;
+        cin >> queryCount;
 
-        for (int i = 0; i < Q; ++i) {
-            int N;
-            cin >> N;
+        while (queryCount--) {
+            int number;
+            cin >> number;
 
-            vector<int> cheapest = findCheapestBases(N, cost);
+            cout << "Cheapest base(s) for number " << number << ":";
 
-            cout << "Cheapest base(s) for number " << N << ":";
-            for (int b : cheapest) {
-                cout << " " << b;
+            int minCost = 0x7FFFFFFF;
+            map<int, int> baseCostMap;
+
+            // Thử từng cơ số từ 2 đến 36
+            for (int base = 2; base <= 36; base++) {
+                int n = number;
+                int totalCost = 0;
+
+                // Chuyển số sang hệ cơ số `base` và tính tổng chi phí in
+                while (n > 0) {
+                    int digit = n % base;
+                    totalCost += costMap[digit];
+                    n /= base;
+                }
+
+                baseCostMap[base] = totalCost;
+                minCost = min(minCost, totalCost);
             }
-            cout << "\n";
-        }
 
-        if (caseNum < T) {
+            // In ra các cơ số có chi phí nhỏ nhất
+            for (int base = 2; base <= 36; base++) {
+                if (baseCostMap[base] == minCost) {
+                    cout << " " << base;
+                }
+            }
             cout << "\n";
         }
     }
