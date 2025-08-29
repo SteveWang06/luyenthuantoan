@@ -25,42 +25,66 @@
 // Với mỗi bộ test đầu vào, bạn cần xuất ra một dòng bắt đầu với số thứ tự của test case (dùng đủ 4 chữ số, ví dụ 0001) sau đó là phần văn bản đã được chuyển đổi.
 
 #include <iostream>
-#include <vector>
 using namespace std;
 
-void convert(long long n, bool isTop) {
-    if (n >= 10000000) {
-        convert(n / 10000000, false);
+
+void split(long long n) {
+    if (n >= 10000000)
+    {
+        split(n/10000000);
         cout << " kuti";
+        
         n %= 10000000;
     }
-    if (n >= 100000) {
-        cout << " " << n / 100000 << " lakh";
+    if (n >= 100000)
+    {
+        split(n/100000);
+        cout << " lakh";
+        
         n %= 100000;
     }
-    if (n >= 1000) {
-        cout << " " << n / 1000 << " hajar";
+    if (n >= 1000)
+    {
+        split(n/1000);
+        cout << " hajar";
+        
         n %= 1000;
     }
-    if (n >= 100) {
-        cout << " " << n / 100 << " shata";
+    if (n >= 100)
+    {
+        split(n/100);
+        cout << " shata";
+        
         n %= 100;
     }
-    if (n || isTop)
+    if (n)
+    {
         cout << " " << n;
+        
+    }
+    
+
 }
 
 int main() {
+
     long long n;
     int caseNo = 1;
-    while (cin >> n) {
+
+    while (cin >> n)
+    {
         cout.width(4);
         cout << caseNo++ << ".";
+
         if (n == 0)
+        {
             cout << " 0";
-        else
-            convert(n, true);
+        }else {
+            split(n);
+        }
         cout << endl;
+
     }
+    
     return 0;
 }
