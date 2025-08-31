@@ -1,47 +1,50 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int main()
-{
 
+int main() {
     int n, m;
 
     while (cin >> n >> m)
     {
-        if (n < 2 || m < 2)
-        {
-            cout << "Boring!" << endl;
-            continue;
-        }
+        vector<int> ans;
 
-        int a[40], cnt = 0;
+        bool boring = false;
 
-        a[cnt++] = n;
-        while (n != 1)
+        if (n == 0 || m == 0)
         {
-            if (n % m != 0)
+            boring = true;
+        }else{
+            ans.push_back(n);
+            while (n > 1)
             {
-                break;
+                if (n % m == 0)
+                {
+                    n /= m;
+                    ans.push_back(n);
+                }else{
+                    boring = true;
+                    break;
+                }
+                
             }
-            a[cnt++] = n / m;
-            n = n / m;
-        }
-
-        if (n==1)
-        {
-            for (int i = 0; i < cnt - 1; i++)
-            {
-                cout << a[i] << " ";
-            }
-            cout << "1" << endl;
             
-        }else
+        }
+        if (boring)
         {
             cout << "Boring!" << endl;
+        }else{
+            for (auto i : ans)
+            {
+                cout << i << " ";
+            }
+            cout << "\n";
+            
         }
         
         
     }
-
     return 0;
+    
 }
