@@ -1,39 +1,24 @@
 #include <iostream>
-#include  <vector>
-#include <string>
-#include <algorithm>
 using namespace std;
 
-
 int main() {
+    string sentence[105];
+    int col = 0;
+    int row = 0;
 
-    vector<string> lines;
-    string line;
-    int maxLength = 0;
-
-    while (getline(cin, line))
-    {
-        lines.push_back(line);
-        maxLength = max(maxLength, (int)line.length());
+    while (getline(cin, sentence[col])) {
+        col++;
+        row = max(row, (int)sentence[col - 1].length());
     }
 
-    for (int col = 0; col < maxLength; col++)
-    {
-        for (int row = lines.size() - 1; row >= 0; --row)
-        {
-            if (col < lines[row].length())
-            {
-                cout << lines[row][col];
-            }else
-            {
-                cout << " ";
+    for (int i = 0; i < row; i++) {
+        for (int j = col - 1; j >= 0; j--) {
+            if (i < sentence[j].length()) {
+                cout << sentence[j][i];
             }
-            
-            
         }
-        cout << "\n";
+        cout << endl;
     }
-    
 
     return 0;
 }
