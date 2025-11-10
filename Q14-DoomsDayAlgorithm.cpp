@@ -1,45 +1,25 @@
 #include <iostream>
-#include <string>
-#include <vector>
-
 using namespace std;
 
 
+int doom[13] = {-1, 10, 21, 7, 4, 9, 6, 11, 8, 5, 10, 7, 12};
+string date[] = {"Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday", "Sunday"};
+ 
 int main() {
-
-
-    vector<string> days = {
-        "Monday", "Tuesday", "Wednesday",
-        "Thursday", "Friday", "Saturday", "Sunday"
-    };
-
-    // Doomsday của từng tháng trong năm 2011
-    int doomsday[12] = {
-        10, // Jan (1/10)
-        21, // Feb (2/21)
-        0,  // placeholder (March)
-        4,  // April
-        9,  // May
-        6,  // June
-        11, // July
-        8,  // August
-        5,  // September
-        10, // October
-        7,  // November
-        12  // December
-    };
-
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        int m, d;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int T, m, d;
+    cin >> T;
+    while (T--) {
         cin >> m >> d;
-        int offset = d - doomsday[m - 1];
-        int indexDay = (offset % 7 + 7) % 7;
-        cout << days[indexDay] << endl;
+        int delta = (d - doom[m]) % 7;
+        if (delta >= 0){
+            cout << date[delta] << "\n";
+        } else {
+            cout << date[7 + delta] << "\n";
+        }
     }
-    
-
     return 0;
 }
+
