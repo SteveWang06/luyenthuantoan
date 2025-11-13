@@ -1,19 +1,24 @@
 #include <iostream>
-#include <cstring>
+#include <vector>
+#include <cmath>
 using namespace std;
- 
+
 int main() {
     int n;
-    while (cin >> n){
-        int pre, now;
-        int d[n]; // initial value not guanranteed to be zero
-        for (int i = 0; i < n; i++) {
-            d[i] = 0;
+    while (cin >> n) {
+        if (n <= 0) {
+            cout << "Not jolly\n";
+            continue;
         }
+        vector<int> d(n, 0); // Sử dụng vector thay cho mảng tĩnh
+        int pre, now;
         cin >> pre;
-        for (int i = 1; i < n; i++){
+        for (int i = 1; i < n; i++) {
             cin >> now;
-            d[abs(now - pre)]++;
+            int diff = abs(now - pre);
+            if (diff > 0 && diff < n) {
+                d[diff]++;
+            }
             pre = now;
         }
         bool flag = true;

@@ -9,13 +9,13 @@ int main() {
         long long totalDays = 0;
 
         // Tăng dần nhóm cho đến khi tổng ngày >= D
-        while (totalDays < D) {
+        while (totalDays + currentGroup < D) {
             totalDays += currentGroup;
             currentGroup++;
         }
 
         // Nhóm hiện tại là người cuối cùng đã thêm -> phải -1
-        cout << currentGroup - 1 << endl;
+        cout << currentGroup << endl;
     }
 
     return 0;
