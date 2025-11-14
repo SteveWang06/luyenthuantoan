@@ -1,40 +1,42 @@
 #include <iostream>
-#include <vector>
-#include <sstream>
 #include <string>
-#include <cmath>
-
+#include <sstream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 int main() {
-    string inputLine;
-    int xValue; // Giá trị của x tại đó đạo hàm được tính
+    string s;
+    int x;
+    vector<int> v;
 
-    while (getline(cin, inputLine)) {
-        xValue = stoi(inputLine); // Đọc giá trị x từ dòng đầu tiên
+    while (cin >> x) {
+        getline(cin, s); // Đọc phần còn lại của dòng
+        getline(cin, s); // Đọc dòng chứa các hệ số
+        stringstream ss(s);
+        v.clear();
 
-        if (!getline(cin, inputLine)) break; // Đọc dòng chứa hệ số của đa thức
-
-        istringstream coefficientStream(inputLine);
-
-        vector<int> polynomialCoefficients; // Lưu các hệ số của đa thức
-        int coefficient;
-
-        // Đọc từng hệ số từ dòng và lưu vào vector
-        while (coefficientStream >> coefficient) {
-            polynomialCoefficients.push_back(coefficient);
+        // Đọc các hệ số vào vector
+        while (ss >> s) {
+            v.push_back(stoi(s));
         }
 
-        int polynomialDegree = polynomialCoefficients.size() - 1; // Bậc của đa thức
-        long long derivativeValue = 0; // Giá trị của đạo hàm tại x
+        // Loại bỏ hệ số tự do (hệ số cuối cùng)
+        v.pop_back();
 
-        // Tính đạo hàm theo công thức: aᵢ * (n - i) * x^(n - i - 1)
-        for (int i = 0; i < polynomialDegree; ++i) {
-            int currentCoefficient = polynomialCoefficients[i];
-            derivativeValue += static_cast<long long>(currentCoefficient) * (polynomialDegree - i) * pow(xValue, polynomialDegree - i - 1);
+        // Đảo ngược vector để tính từ bậc thấp đến bậc cao
+        reverse(v.begin(), v.end());
+
+        // Tính giá trị đạo hàm
+        long long mul = 1; // Giá trị x^i
+        int ans = 0;       // Tổng giá trị đạo hàm
+        for (int i = 0; i < v.size(); i++) {
+            ans += v[i] * (i + 1) * mul; // Tính hạng tử
+            mul *= x;                    // Cập nhật x^i
         }
 
-        cout << derivativeValue << endl;
+        // In kết quả
+        cout << ans << "\n";
     }
 
     return 0;
