@@ -5,45 +5,52 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
+
     int T, n;
     char ch;
     cin >> T;
+
     for (int Case = 1; Case <= T; Case++)
     {
         cin >> ch >> ch >> n;
         long long a[n][n];
-        bool flag = true;
+        bool isSymmetric = true;
+
+        // Nhập ma trận
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n; j++)
             {
                 cin >> a[i][j];
+
+                // Kiểm tra phần tử không âm
                 if (a[i][j] < 0)
-                    flag = false;
+                    isSymmetric = false;
             }
         }
-        cout << "Test #" << Case << ": ";
-        if (!flag)
-        {
-            cout << "Non-symmetric.\n";
-            continue;
-        }
 
-        for (int i = 0; i <= n / 2; i++)
+        // Kiểm tra tính đối xứng
+        for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n - i; j++)
+            for (int j = 0; j < n; j++)
             {
                 if (a[i][j] != a[n - 1 - i][n - 1 - j])
                 {
-                    flag = false;
+                    isSymmetric = false;
                     break;
                 }
             }
+            if (!isSymmetric)
+                break;
         }
-        if (flag)
+
+        // In kết quả
+        cout << "Test #" << Case << ": ";
+        if (isSymmetric)
             cout << "Symmetric.\n";
         else
             cout << "Non-symmetric.\n";
     }
+
     return 0;
 }
