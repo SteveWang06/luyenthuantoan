@@ -1,40 +1,32 @@
 #include <iostream>
-#include <set>
 using namespace std;
-
-
-int main()
-{
-    int n, c = 1;
-    set<int> s;
-    while (cin >> n)
-    {
-        int a[n];
-        s.clear();
-        for (int i = 0; i < n; i++)
-        {
-            cin >> a[i];
+#define maxn 20005
+ 
+int main() {
+    int n, Case = 1;
+    while (cin >> n) {
+        int b[n], sum[maxn];
+        for (int i = 0; i < n; i++) {
+            cin >> b[i];
         }
-        for (int i = 0; i < n; i++)
-        {
-            if (a[i] < 0)
-                break;
-            else if (a[i + 1] <= a[i] && i >= 0)
-                break;
-            for (int j = i; j < n; j++)
-            {
-                s.insert(a[i] + a[j]);
+        for (int i = 0; i < maxn; i++) {
+            sum[i] = 0;
+        }
+        bool flag = true;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int x = b[i] + b[j];
+                if (sum[x]) {
+                    flag = false;
+                    break;
+                } else {
+                    sum[x] = 1;
+                }
             }
+            if (!flag) break;
         }
-        if (s.size() == (1 + n) * n / 2)
-            cout << "Case #" << c << ": It is a B2-Sequence." << endl
-                 << endl;
-        else
-            cout << "Case #" << c << ": It is not a B2-Sequence." << endl
-                 << endl;
-
-        c++;
+        if (flag) cout << "Case #" << Case++ << ": It is a B2-Sequence.\n\n";
+        else cout << "Case #" << Case++ << ": It is not a B2-Sequence.\n\n";
     }
-
     return 0;
 }
