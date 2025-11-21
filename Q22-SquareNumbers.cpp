@@ -1,28 +1,19 @@
 #include <iostream>
 #include <cmath>
-
 using namespace std;
-
-
+  
 int main() {
-
-    int a, b, count;
-
-    while (cin >> a >> b)
-    {
-        if (a == 0 || b == 0)
-        {
-            break;
-        }
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int a, b;
+    while (cin >> a >> b && a + b){
         
-        int lower = ceil(sqrt(a));      //số nguyên nhỏ nhất có bình phương ≥ a.
-        int upper = floor(sqrt(b));    //số nguyên lớn nhất có bình phương ≤ b.
-        int count = upper - lower + 1;
+        int n1 = sqrt(a);
+        int n2 = sqrt(b);
 
-        cout << count << endl;
+        if (n1*n1 != a) n1++;
+
+        cout << n2 - n1 + 1 << "\n";
     }
-    
-
-
     return 0;
 }
